@@ -342,7 +342,14 @@ class Pbp_Access_Admin {
                     <?php $has_access = $wpdb->get_results('SELECT user_id FROM ' . $wpdb->prefix . 'pbp_access_users WHERE user_id=' . $user->ID . ' AND ' . ' page_id=' . $page->ID); ?>
                     <?php if (!empty($has_access)) {
                         ?>
-                        <input name="<?php echo $user->user_login; ?>" id="<?php echo $user->ID; ?>" type="checkbox" value="true" checked><label>
+                        <?php
+                        /**
+                         * Added by Nick Tan on March 8th, 2017
+                         * 
+                         * Fixed issues whereby both a user and role would have the same input name if the user had the same user_login as a role
+                         */
+                        ?>
+                        <input name="<?php echo 'pbp_user_' . $user->user_login; ?>" id="<?php echo $user->ID; ?>" type="checkbox" value="true" checked><label>
                             <?php
                             echo $user->user_login;
                             echo($user->user_firstname != '' || $user->user_lasttname != '' ? ' (' . $user->user_firstname . ' ' . $user->user_lastname . ')' : '');
@@ -352,7 +359,14 @@ class Pbp_Access_Admin {
                     }
                     else {
                         ?>
-                        <input name="<?php echo $user->user_login; ?>" id="<?php echo $user->ID; ?>" type="checkbox" value="true" ><label>
+                        <?php 
+                        /**
+                         * Added by Nick Tan on March 8th, 2017
+                         * 
+                         * Fixed issues whereby both a user and role would have the same input name if the user had the same user_login as a role
+                         */
+                        ?>
+                        <input name="<?php echo 'pbp_user_' . $user->user_login; ?>" id="<?php echo $user->ID; ?>" type="checkbox" value="true" ><label>
                             <?php
                             echo $user->user_login;
                             echo($user->user_firstname != '' || $user->user_lasttname != '' ? ' (' . $user->user_firstname . ' ' . $user->user_lastname . ')' : '');
@@ -377,7 +391,7 @@ class Pbp_Access_Admin {
                             <?php
                         }
                         else {
-                            ?>
+                            ?>     
                             <input name="<?php echo str_replace(' ', '_', $role_name); ?>" type="checkbox" value="true"><label><?php echo ucwords($role_name); ?></label><br/>
                         <?php }
                         ?>
@@ -425,7 +439,7 @@ class Pbp_Access_Admin {
 
         foreach ($users as $user) {
             $exists = $wpdb->get_results('SELECT user_id FROM ' . $wpdb->prefix . 'pbp_access_users WHERE user_id=' . $user->ID . ' AND ' . ' page_id=' . $post_id);
-            if (isset($_POST[$user->user_login])) {
+            if (isset($_POST["pbp_user_" . $user->user_login])) {
                 if (empty($exists)) {
                     $table_name = $wpdb->prefix . "pbp_access_users";
                     $wpdb->insert($table_name, array(
