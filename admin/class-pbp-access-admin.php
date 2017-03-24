@@ -69,7 +69,8 @@ class Pbp_Access_Admin {
          * between the defined hooks and the functions defined in this
          * class.
          */
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/pbp-access-admin.css', array(), $this->version, 'all');
+        // wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/pbp-access-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, plugins_url() . '/pbp-access-master/css/pbp-access-admin.css', array(), $this->version, 'all');
     }
 
     /**
@@ -164,7 +165,7 @@ class Pbp_Access_Admin {
                 }
             }
             ?>
-            <div class="wrap">
+            
                 <h2>Page by Page Access</h2>
 
                 <?php echo '<br/>' . $message; ?>
@@ -217,7 +218,7 @@ class Pbp_Access_Admin {
                     </form>
                     <?php
                 }
-                else {
+                elseif ($tab == 'third') {
                     ?>
                     <br/>
                     <em>This section allows you to add access in bulk to a single user or role.</em>
@@ -235,9 +236,49 @@ class Pbp_Access_Admin {
                         <!-- Now we can render the completed list table -->
                         <?php $wp_pbp_access_grant_table->display(); ?>
                     </form>
-                <?php }
+                <?php 
+                } else {
+                    /**
+                     * code below for the help tab was added by Nick Tan on March 22, 2017
+                     */
+                    ?>
+                    <br />
+                    <em>This section provides instructions on how to grant and delete access through a page or through the bulk actions feature.</em>
+                    <h3>Page functions</h3>
+                    To give access to a single page:<br/>
+                    <ol>    
+                        <li>Navigate to that page via the sidebar.</li>
+                        <li>Once on the page, look for the Page Access box which contains two sub-boxes: Users and Roles. (see image below)</li>
+                        <li>Check the checkboxes beside the user or role you want to give page access to.<br/>
+                        Checking a box in the User section will grant access to only those people, whereas checking a box under Roles will give access to everyone who has that role.
+                        <br/>Additionally, Unchecking a box will delete access.</li>
+                        <li>Once you've checked/unchecked the boxes, click the blue update button which is above the Page Access box to apply those changes.</li>
+                    </ol>
+                    <img src="<?php echo plugins_url() . '/pbp-access-master/images/pbp-access-box.jpg';?>" class="pbp-image"/>
+                    
+                    <h3>Viewing Access</h3>
+                    You can view a list of access permissions by clicking on either the "Users" or "Roles" tabs beside this tab.<br/><br/>  
+                    The Users Table.
+                   <img src="<?php echo plugins_url() . '/pbp-access-master/images/users-tab.jpg';?>" class="pbp-image image-margins"/><br/>
+                   
+                   The Roles Table.
+                   <img src="<?php echo plugins_url() . '/pbp-access-master/images/roles-tab.jpg';?>" class="pbp-image image-margins"/><br/>
+                    <h3>Bulk Actions</h3>
+                    <strong>Grant Access</strong><br/>
+                    Instead of granting access to pages individually, you can do this through bulk actions which can be done under the "Grant Access" tab beside this tab.<br/>
+                    With this you can give access in bulk either to certain users or to certain roles. 
+                    <img src="<?php echo plugins_url() . '/pbp-access-master/images/grant-access-tab.jpg';?>" class="pbp-image image-margins"/><br/>
+                    <strong>Delete Access</strong>
+                    <ol>
+                        <li>Go to either the Users or Roles tabs.</li>
+                        <li>Check the boxes of those you want to delete access from.</li>
+                        <li>Select "delete access" from the select box.</li>
+                        <li>Click apply.</li>
+                    </ol>
+                    <?php
+                }
                 ?>
-            </div>
+            
             <?php
         }
 
@@ -246,6 +287,7 @@ class Pbp_Access_Admin {
               'first' => __("Users", 'pbp-access'),
               'second' => __("Roles", 'pbp-access'),
               'third' => __("Grant Access", 'pbp-access'),
+              'fourth' => __("Help", 'pbp-access'),
             );
             $html = '<h2 class="nav-tab-wrapper">';
             foreach ($tabs as $tab => $name) {

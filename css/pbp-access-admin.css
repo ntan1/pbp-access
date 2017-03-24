@@ -4,7 +4,12 @@
  */
 
 .pbp-image {
+    margin: 10px 0px 20px 0px;
     -moz-box-shadow: 0px 0px 10px 3px #cacaca;
     -webkit-box-shadow: 0px 0px 10px 3px #cacaca;
     box-shadow: 0px 0px 10px 3px #cacaca;
+}
+
+.image-margins {
+    width: 95%;
 }
